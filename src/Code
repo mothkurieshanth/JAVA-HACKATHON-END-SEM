@@ -1,0 +1,63 @@
+class Appointment {
+    String patientName, patientId, doctorName, type;
+    double fee;
+
+    Appointment(String p, String id, String d, String t, double f) {
+        if (p == null || p.trim().isEmpty() ||
+            id == null || id.trim().isEmpty() ||
+            f < 0 || Double.isNaN(f) || Double.isInfinite(f))
+            throw new IllegalArgumentException("Invalid details");
+
+        patientName = p.trim().toUpperCase();
+        patientId = id.trim();
+        doctorName = d.trim().toUpperCase();
+        type = t.trim().toUpperCase();
+        fee = f;
+    }
+
+    Appointment(String p, String id) {
+        this(p, id, "Dr. Kumar", "General", 500);
+    }
+
+    void display() {
+        display(true);
+    }
+
+    void display(boolean showFee) {
+        System.out.println("Patient Name       : " + patientName);
+        System.out.println("Patient ID         : " + patientId);
+        System.out.println("Doctor Name        : " + doctorName);
+        System.out.println("Appointment Type   : " + type);
+        if (showFee)
+            System.out.printf("Consultation Fee   : Rs. %.2f%n", fee);
+        System.out.println("Appointment Status : Confirmed");
+    }
+
+    boolean samePatient(Appointment a) {
+        return patientName.equalsIgnoreCase(a.patientName);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Appointment a1 = new Appointment(
+            "Priya Sharma", "P101", "Dr. Kumar", "General", 500);
+        Appointment a2 = new Appointment(
+            "Rahul Verma", "P102", "Dr. Meena", "Specialist", 800);
+
+        System.out.println("========== CLINIC APPOINTMENT SYSTEM ==========");
+        a1.display();
+        System.out.println();
+        a2.display();
+
+        System.out.println("\n---------- APPOINTMENT SUMMARY ----------");
+        System.out.println("Total Appointments : 2");
+        System.out.printf("Total Consultation : Rs. %.2f%n",
+                          a1.fee + a2.fee);
+        System.out.println("Patient Verification: " +
+            (a1.samePatient(new Appointment("PRIYA SHARMA", "P999"))
+             ? "Names Match" : "Names Do Not Match"));
+        System.out.println("=============================================");
+    }
+}
+
